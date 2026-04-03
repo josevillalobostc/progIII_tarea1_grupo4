@@ -1,4 +1,5 @@
 #include "Tensor.h"
+#include <iomanip>
 
 Tensor Tensor::apply ( const TensorTransform & transform ) const {
 
@@ -52,4 +53,52 @@ Tensor dot(const Tensor& a ,const Tensor& b){
 
 Tensor matmul(const Tensor& a ,const Tensor& b){
 
+}
+
+
+std::ostream& operator<<(std::ostream& os, const Tensor &tens){
+    switch(tens.ndims){
+        case 0:
+            os << tens.data[0];
+            break;
+        case 1: {
+            os << "[ ";
+            for(size_t i = 0; i < tens.shape[0]; i++){
+                os << std::setw(5) << tens.data[i] << " ";
+            }
+            os << "]";
+            break;
+        }
+        case 2: {
+            size_t rows = tens.shape[0];
+            size_t cols = tens.shape[1];
+            for (size_t i = 0; i < rows; ++i) {
+                    os << "[ ";
+                    for (size_t j = 0; j < cols; ++j) {
+                        os << std::setw(5) << tens.data[i * cols + j] << " ";
+                    }
+                    os << "]\n";
+                }
+            break; 
+        }       
+        case 3:
+            size_t rows = tens.shape[0];
+            size_t cols = tens.shape[1];
+            size_t fond = tens.shape[2];
+            for (size_t k = 0; k < fond; ++k) {
+                    os << "Capa " << k << ":\n";
+                    for (size_t i = 0; i < rows; ++i) {
+                        os << "  [ ";
+                        for (size_t j = 0; j < cols; ++j) {
+                            
+                            size_t ind = k * (rows * cols) + i * cols + j;
+                            os << std::setw(5) << tens.data[ind] << " ";
+                        }
+                        os << "]\n";
+                    }
+                    os << "\n";
+                }
+            
+    }
+    return os;
 }

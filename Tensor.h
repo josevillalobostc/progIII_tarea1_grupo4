@@ -41,4 +41,6 @@ public:
 
     friend Tensor dot(const Tensor& a ,const Tensor& b);
     friend Tensor matmul(const Tensor& a ,const Tensor& b);
+    
+    friend std::ostream& operator<<(std::ostream& os, const Tensor &tens);
 };
