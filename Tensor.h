@@ -11,6 +11,8 @@ class Tensor{
     size_t ndims;
     size_t total_elements;
 public:
+    friend class ReLu;
+    friend class Sigmoid;
     // Constructores
     Tensor(const std::vector<size_t>& shape,
         const std::vector<double>& values);
