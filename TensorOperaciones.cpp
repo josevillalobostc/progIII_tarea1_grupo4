@@ -1,8 +1,8 @@
 #include "Tensor.h"
 #include <iomanip>
 
-Tensor Tensor::apply ( const TensorTransform & transform ) const {
-
+Tensor Tensor::apply (const TensorTransform& transform) const {
+    return transform.apply(*this);
 }
 
 Tensor Tensor::operator+(const Tensor& other){
