@@ -22,10 +22,10 @@ public:
     ~Tensor();
 
     // Tensores predefinidos
-    Tensor zeros(const std::vector<size_t>);
-    Tensor ones(const std::vector<size_t>);
-    Tensor random(const std::vector<size_t>,const double min,const double max);
-    Tensor arrange(const int in, const int fin);
+    static Tensor zeros(const std::vector<size_t>& _shape);
+    static Tensor ones(const std::vector<size_t>);
+    static Tensor random(const std::vector<size_t>,const double min,const double max);
+    static Tensor arrange(const int in, const int fin);
 
     //ModDimensiones
     Tensor view(const std::vector<size_t>);
