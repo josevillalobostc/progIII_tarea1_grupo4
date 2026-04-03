@@ -39,7 +39,7 @@ Tensor& Tensor::operator=(const Tensor& other){
     delete[] data;
     delete[] shape;
     ndims = other.ndims;
-    total_elements = other.total_elements
+    total_elements = other.total_elements;
     shape = new size_t[ndims];
     std::copy(other.shape, other.shape + ndims, shape);
     data = new double[total_elements];
