@@ -6,7 +6,10 @@
 
 
 class Tensor{
-
+    double* data;
+    size_t* shape;
+    size_t ndims;
+    size_t total_elements;
 public:
     // Constructores
     Tensor(const std::vector<size_t>& shape,
