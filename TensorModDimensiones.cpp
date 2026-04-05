@@ -21,7 +21,7 @@ Tensor Tensor::view(const std::vector<size_t>& _shape){
 
 Tensor Tensor::unsqueeze(const size_t n){
     if (ndims >= 3) throw std::invalid_argument("No se pueden agregar más dimensiones, ya se tienen 3."); 
-    if (n > ndims | n < 0) throw std::invalid_argument("Indice inválido"); 
+    if (n >= ndims) throw std::invalid_argument("Indice inválido"); 
     std::vector <size_t> new_shape;
     new_shape.reserve(ndims + 1);
     
@@ -67,17 +67,21 @@ Tensor Tensor::concat(const std::vector<Tensor>& tensores, const size_t n){
         }
     Tensor concatifico = Tensor::zeros(new_shape);
     
-    switch(n){
-        case(0):{
-            int val = 0;
-            for(const auto& tens : tensores){
-                for(size_t i = 0; i < tens.shape[0]; i++)
-                    concatifico.data[val + i] = tens.data[i];
-                val += tens.shape[0];
-            }
-            
+    size_t interc = 1;
+    size_t ante_salto = 1;
+    
+    for(size_t i = 0; i < n;i++)
+        interc *= concatifico.shape[i];
+    
+    for(size_t i = n + 1; i < concatifico.ndims; i++)
+        ante_salto *= concatifico.shape[i];
+    size_t acumulado = 0;
+    for(size_t i = 0; i < interc; i++){
+        for(const Tensor& tens : tensores){
+            size_t salto = ante_salto * tens.shape[n];
+            std::copy(tens.data + i * salto,tens.data + i * salto + salto ,concatifico.data + acumulado);
+            acumulado+= salto;
         }
     }
-    
     return concatifico;
 }

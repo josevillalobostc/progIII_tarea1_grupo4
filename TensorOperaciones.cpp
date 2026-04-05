@@ -81,10 +81,10 @@ std::ostream& operator<<(std::ostream& os, const Tensor &tens){
                 }
             break; 
         }       
-        case 3:
-            size_t rows = tens.shape[0];
-            size_t cols = tens.shape[1];
-            size_t fond = tens.shape[2];
+        case 3:{
+            size_t rows = tens.shape[1];
+            size_t cols = tens.shape[2];
+            size_t fond = tens.shape[0];
             for (size_t k = 0; k < fond; ++k) {
                     os << "Capa " << k << ":\n";
                     for (size_t i = 0; i < rows; ++i) {
@@ -98,7 +98,8 @@ std::ostream& operator<<(std::ostream& os, const Tensor &tens){
                     }
                     os << "\n";
                 }
-            
+            break;
+        }
     }
     return os;
 }
