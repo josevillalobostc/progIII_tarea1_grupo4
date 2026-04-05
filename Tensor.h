@@ -30,9 +30,9 @@ public:
     static Tensor arange(const int in, const int fin);
 
     //ModDimensiones
-    Tensor view(const std::vector<size_t>);
-    Tensor unsqueeze(const int n);
-    Tensor concat(const std::vector<Tensor>, const int n);
+    Tensor view(const std::vector<size_t>& _shape);
+    Tensor unsqueeze(const size_t n);
+    static Tensor concat(const std::vector<Tensor>& tensores, const size_t n);
 
     //Operaciones
     Tensor apply ( const TensorTransform & transform ) const ;
