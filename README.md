@@ -5,6 +5,7 @@
 ## 
 
 ## Modo de ejecución
+Tener CMake instalado para la compilación del proyecto.
 Ejecutar en la terminal
 ```shell
 cmake -B build
@@ -19,3 +20,4 @@ Finalmente, para ejecutar el programa simplemente se usa
 ```shell
 ./build/Tarea1
 ```
+En caso de abrir el proyecto en CLion, simplemente darle al botón de Play, luego de crear la carpeta de `build/`.
