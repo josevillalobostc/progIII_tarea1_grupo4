@@ -41,7 +41,7 @@ public:
     Tensor operator*(const Tensor& other);
     Tensor operator*(const double n);
 
-    friend Tensor dot(const Tensor& a ,const Tensor& b);
+    friend double dot(const Tensor& a ,const Tensor& b);
     friend Tensor matmul(const Tensor& a ,const Tensor& b);
     
     friend std::ostream& operator<<(std::ostream& os, const Tensor &tens);
