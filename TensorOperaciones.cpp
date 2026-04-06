@@ -6,9 +6,9 @@ Tensor Tensor::apply (const TensorTransform& transform) const {
 }
 
 Tensor Tensor::operator+(const Tensor& other){
-    if (this->ndims!=other.ndims) throw std::invalid_argument("Dimensiones incompatibles");
+    if (this->ndims!=other.ndims) throw std::invalid_argument("Dimensiones incompatibles.");
     for (size_t i=0;i<ndims;++i) {
-        if (this->shape[i]!=other.shape[i]) throw std::invalid_argument("Dimensiones deben coincidir");
+        if (this->shape[i]!=other.shape[i]) throw std::invalid_argument("Dimensiones deben coincidir.");
     }
     std::vector<double> result_values(total_elements);
     for (size_t i=0;i<total_elements;++i) {result_values[i]=this->data[i]+other.data[i];}
@@ -17,9 +17,9 @@ Tensor Tensor::operator+(const Tensor& other){
 }
 
 Tensor Tensor::operator-(const Tensor& other){
-    if (this->ndims!=other.ndims) throw std::invalid_argument("Dimensiones incompatibles");
+    if (this->ndims!=other.ndims) throw std::invalid_argument("Dimensiones incompatibles.");
     for (size_t i=0;i<ndims;++i) {
-        if (this->shape[i]!=other.shape[i]) throw std::invalid_argument("Dimensiones deben coincidir");
+        if (this->shape[i]!=other.shape[i]) throw std::invalid_argument("Dimensiones deben coincidir.");
     }
     std::vector<double> result_values(total_elements);
     for (size_t i=0;i<total_elements;++i) {result_values[i]=this->data[i]-other.data[i];}
@@ -28,9 +28,9 @@ Tensor Tensor::operator-(const Tensor& other){
 }
 
 Tensor Tensor::operator*(const Tensor& other){
-    if (this->ndims!=other.ndims) throw std::invalid_argument("Dimensiones incompatibles");
+    if (this->ndims!=other.ndims) throw std::invalid_argument("Dimensiones incompatibles.");
     for (size_t i=0;i<ndims;++i) {
-        if (this->shape[i]!=other.shape[i]) throw std::invalid_argument("Dimensiones deben coincidir");
+        if (this->shape[i]!=other.shape[i]) throw std::invalid_argument("Dimensiones deben coincidir.");
     }
     std::vector<double> result_values(total_elements);
     for (size_t i=0;i<total_elements;++i) {result_values[i]=this->data[i]*other.data[i];}
@@ -47,12 +47,36 @@ Tensor Tensor::operator*(const double n){
 
 // Funciones amigas
 
-Tensor dot(const Tensor& a ,const Tensor& b){
-
+double dot(const Tensor& a ,const Tensor& b){
+    if (a.ndims!=1 or b.ndims!=1) throw std::invalid_argument("Dimensiones incompatibles.\n"
+        "Ambos tensores deben tener 1 sola dimensión para realizar el producto punto.");
+    if (a.shape[0]!=b.shape[0]) throw std::invalid_argument("Dimensiones deben coincidir.");
+    double dot=0.0;
+    for(size_t C=0;C<a.total_elements;++C){dot+=a.data[C]*b.data[C];}
+    return dot;
 }
 
-Tensor matmul(const Tensor& a ,const Tensor& b){
-
+Tensor matmul(const Tensor& a, const Tensor& b){
+    if (a.ndims!=2 or b.ndims!=2) {
+        throw std::invalid_argument("Dimensiones incompatibles.\n"
+        "Ambos tensores deben tener 2 dimensiones para realizar el producto matricial.");
+    }
+    if (a.shape[1] != b.shape[0]) {
+        throw std::invalid_argument("Dimensiones incompatibles para matmul.\n"
+        "La segunda dimensión del primer tensor debe ser igual a la primera dimensión\n"
+        "del segundo tensor.");
+    }
+    std::vector<double> result_values(a.shape[0]*b.shape[1],0.0);
+    for (size_t C=0;C<a.shape[0];++C) {
+        for (size_t D=0;D<b.shape[1];++D) {
+            double sigma=0.0;
+            for (size_t E=0;E<a.shape[1];++E) {
+                sigma+=a.data[C*a.shape[1]+E]*b.data[E*b.shape[1]+D];
+            }
+            result_values[C*b.shape[1]+D]=sigma;
+        }
+    }
+    return Tensor({a.shape[0],b.shape[1]}, result_values);
 }
 
 
